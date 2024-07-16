@@ -1,5 +1,6 @@
 const fastifyPlugin = require("fastify-plugin");
 const servicePlugin = require("./services/servicePlugin");
+const repositoryPlugin = require("./repository/repositoryPlugin");
 
 /**
  * Encapsulates the routes
@@ -12,6 +13,7 @@ async function app(fastify,options) {
    // fastify.register(require('cors'));  // no need as of now, giving error dont know why
 
     fastify.register(require('./routes/api/apiRoutes'), {prefix: '/api'});
+    fastify.register(repositoryPlugin);
     fastify.register(servicePlugin);
 }
 

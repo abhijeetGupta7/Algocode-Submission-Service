@@ -1,14 +1,15 @@
 const app = require('./app');
+const connectToDB = require('./config/dbConfig');
+const { PORT } = require('./config/serverConfig');
 
 const fastify=require('fastify')({logger:true});  // calling the fastify contructor (fastify provides its own dedicated logger)
 
-const PORT=3000;
-
 fastify.register(app);
-fastify.listen({ port:PORT }, (err)=>{
+fastify.listen({ port:PORT }, async (err)=>{
     if(err) {
         fastify.log.error(err)
         process.exit(1)
     }
     console.log(`Server started at ${PORT}`);
+    await connectToDB();
 })
