@@ -1,3 +1,4 @@
+const fastify = require("fastify");
 const submissonQueueProducer = require("../producers/submissonQueueProducer");
 
 class SubmissonService {
@@ -10,12 +11,12 @@ class SubmissonService {
     }
 
     async addSubmisson(submisson) {    // adds submisson in db and if added in db, then add in Submisson queue
-        const submisson=await this.submissonRepository.createSubmisson(submisson); 
-        if(!submisson) {
+        const submissonData=await this.submissonRepository.createSubmisson(submisson); 
+        if(!submissonData) {
             // Add error handling
             throw { error:"Not able to create Submisson" };
         }
-        console.log(submisson);
+        console.log(submissonData);
         const response=await submissonQueueProducer(submisson);
         return { queueResponse: response, submisson };
     }
