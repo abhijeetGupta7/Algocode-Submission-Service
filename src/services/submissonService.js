@@ -14,11 +14,11 @@ class SubmissonService {
     }
 
     async addSubmisson(submisson) {    // adds submisson in db and if added in db, then add in Submisson queue
-        
         // hit the problemAdminApi and fetch the problem details
         const problemId=submisson.problemId;
         const codeLanguage=submisson.language;
         const userCode=submisson.code;
+        const userId=submisson.userId;
         
         const problemDetails=await fetchProblemDetails(problemId);
         if(!problemDetails) {
@@ -31,7 +31,7 @@ class SubmissonService {
         const codeToBeSubmitted=mergeCode(userCode,langCodeStubs);
         console.log(codeToBeSubmitted);
         
-        submisson.code=codeToBeSubmitted;  // so that complete code gets in the db
+        submisson.code=codeToBeSubmitted;  // so that complete code gets in the db and in the SubmissonQueue
         const submissonData=await this.submissonRepository.createSubmisson(submisson); 
         if(!submissonData) {
             // Add error handling
@@ -39,12 +39,13 @@ class SubmissonService {
         }
         console.log(submissonData);
        
-       
-        const submissonQueuePayload= { [submissonData._id] :{  // userID:data (not thought about the id), submisson key
+        const submissonQueuePayload= { [submissonData._id]:{  // here we had [submissonData_.id]
             language:"java",
             code:codeToBeSubmitted,
             inputTestCase:problemDetails.data.testcases[0].input,
-            outputTestCase:problemDetails.data.testcases[0].output
+            outputTestCase:problemDetails.data.testcases[0].output,
+            submissonId:submissonData._id,
+            userId
           }
         }
        
@@ -52,6 +53,11 @@ class SubmissonService {
         return { queueResponse: submissonData };
     }
 
+
+    // async updateSubmisson(data) {
+    //     const updatedSubmisson = await this.submissonRepository.updateSubmisson(data);
+    //     return updatedSubmisson;
+    // }
 }
 
 module.exports=SubmissonService;

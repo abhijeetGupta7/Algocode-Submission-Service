@@ -10,6 +10,11 @@ class SubmissonRepository {
         return response;
     }
 
+    // async updateSubmisson(data) {
+    //     const response=await this.submissonModel.findByIdAndUpdate(data.submissonId,data.response.status, {new:true});
+    //     return response;
+    // }
+
 };
 
 module.exports=SubmissonRepository;

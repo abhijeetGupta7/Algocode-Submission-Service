@@ -15,6 +15,16 @@ async function createSubmisson(req,res) {
     });
 }
 
+// async function updateSubmisson(req,res) {
+//     const response=await this.submissonService.updateSubmisson(req.body);
+//     return res.code(200).send({
+//         error:{},
+//         data:response,
+//         success:true,
+//         message: "Successfully updated the Submisson Status"
+//     });
+// }
+
 
 module.exports={
     pingRequest,
