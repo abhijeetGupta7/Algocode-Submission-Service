@@ -1,4 +1,4 @@
-## AlgoCode Submission Service 
+# AlgoCode Submission Service 
 
 > **A scalable, queue-based code submission backend for coding platforms.**
 
